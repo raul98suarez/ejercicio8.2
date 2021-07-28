@@ -2,6 +2,8 @@
 
 namespace App\Services\SolicitudEstados;
 
+use App\Events\Presupuesto;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Servicio encargado de asignar los estados de las Solicitudes
@@ -16,8 +18,10 @@ final class SolicitudEstados
      * @return false Si algo salio mal 
      * 
      */
-    public function solicitudPendiente(SolicitudPresupuesto $solicitud):bool
+    public function solicitudPendiente(EventDispatcherInterface $dispatcher,SolicitudPresupuesto $solicitud):bool
     {
+        $evento=new Presupuesto();
+        $dispatcher->dispatch($evento,'solicitud.pendiente');
         return true;
     }
 
@@ -29,7 +33,7 @@ final class SolicitudEstados
      * @return false Si algo salio mal 
      * 
      */
-    public function solicitudAprobada(SolicitudPresupuesto $solicitud):bool
+    public function solicitudAprobada(EventDispatcherInterface $dispatcher, SolicitudPresupuesto $solicitud):bool
     {
         return true;
     }
@@ -42,7 +46,7 @@ final class SolicitudEstados
      * @return false Si algo salio mal 
      * 
      */
-    public function solicitudRechazada(SolicitudPresupuesto $solicitud):bool
+    public function solicitudRechazada(EventDispatcherInterface $dispatcher, SolicitudPresupuesto $solicitud):bool
     {
         return true;
     }
