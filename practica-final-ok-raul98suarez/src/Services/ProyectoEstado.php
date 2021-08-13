@@ -2,12 +2,20 @@
 
 namespace App\Services\ProyectoEstado;
 
+use App\Repository\EnviarMail;
 
 /**
  * Servicio encargado de asignar los estados de los Proyectos
  */
 final class ProyectoEstado
 {
+
+    private $enviarMail;
+    public function __construct(EnviarMail $enviarMail)
+    {
+        $this->enviarMail=$enviarMail;
+    }
+
     /**
      * Asigna el estado de Aprobado a un proyecto
      * @param $proyecto Proyecto al que se le asigna el estado
@@ -18,6 +26,7 @@ final class ProyectoEstado
      */
     public function proyectoAprobado(Proyecto $proyecto):bool
     {
+        $this->enviarMail->sendEmail("PROYECTO","APROBADO");
         return true;
     }
 
@@ -31,6 +40,7 @@ final class ProyectoEstado
      */
     public function proyectoEnproceso(Proyecto $proyecto):bool
     {
+        $this->enviarMail->sendEmail("PROYECTO","EN PROCESO");
         return true;
     }
 
@@ -44,6 +54,7 @@ final class ProyectoEstado
      */
     public function proyectoTerminado(Proyecto $proyecto):bool
     {
+        $this->enviarMail->sendEmail("PROYECTO","TERMINADO");
         return true;
     }
 }
