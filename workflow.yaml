@@ -1,0 +1,78 @@
+framework:
+    workflows: 
+        tramitar_proyecto:
+            type: 'workflow'
+            marking_store:
+                type: 'single_state'
+                arguments:
+                    - 'estado'
+            supports:
+                - App\Entity\Proyecto
+            places:
+                - creacion
+                - aprobado
+                - en_proceso
+                - terminado
+            initial_place: creacion
+            transitions:
+                revision:
+                    from: creacion
+                    to: aprobado
+                creacion:
+                    from: aprobado
+                    to: en_proceso
+                finalizacion:
+                    from: en_proceso
+                    to: terminado
+
+        tramitar_solicitud:
+            type: 'workflow'
+            marking_store:
+                type: 'single_state'
+                arguments:
+                    - 'estado'
+            supports:
+                - App\Entity\Solicitud
+            places:
+                - creacion
+                - pendiente
+                - aprobada
+                - rechazada
+            initial_place: creacion
+            transitions:
+                revision:
+                    from: creacion
+                    to: pendiente
+                aprobar:
+                    from: pendiente
+                    to: aprobada
+                rechazar:
+                    from: pendiente
+                    to: rechazada
+
+        tramitar_tarea:
+            type: 'workflow'
+            marking_store:
+                type: 'single_state'
+                arguments:
+                    - 'estado'
+            supports:
+                - App\Entity\Tarea
+            places:
+                - creacion
+                - sin_asignar
+                - asignada
+                - terminada
+            initial_place: creacion
+            transitions:
+                revision:
+                    from: creacion
+                    to: sin_asignar
+                asignacion:
+                    from: sin_asignar
+                    to: asignada
+                finalizacion:
+                    from: asignada
+                    to: terminada
+                
+
